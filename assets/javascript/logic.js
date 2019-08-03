@@ -1,6 +1,54 @@
 var topics = ["Crying Jordan", "Deal with it", "Salt Bae", "White guy blinking", "Everything is fine", "Forever alone", "Like a boss", "Sips tea", "Steal yo girl", "Fail"];
 
 
+// Function to render the HTML to display the content
+function displayGifInfo() {
+
+    var gif = $(this).attr("data-name");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
+
+    // Create an AJAX call for the button being clicked
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(res) {
+        // console.log(res);
+
+        var results = res.data;
+
+        // Loop over every result item
+        for (var i = 0; i < results.length; i++) {
+
+            // Only take action if the gif has an appropriate rating
+            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+
+            // Creating a div to hold the gifs
+            var gifDiv = $("<div class='gifs'>");
+
+            // Storing the rating data
+            var ratings = results[i].rating;
+
+            // Creating an element to have the rating displayed
+            var ratingP = $("<p>").text("Rating: " + ratings);
+
+            // Displaying the rating
+            gifDiv.append(ratingP);
+
+            // Retrieving the URL for the gif
+            var gifURL = results[i].images.fixed_height.url;
+
+            // Creating an element to hold the image
+            var displayGif = $("<img>").attr("src", gifURL);
+
+            // Appending the image
+            gifDiv.append(displayGif);
+
+            // Putting the new gifs above the previous ones
+            $("#gifs-div").prepend(gifDiv);
+    }}})
+}
+
+
 // Function for displaying buttons
 function renderButtons() {
 
@@ -21,8 +69,6 @@ function renderButtons() {
         button.text(topics[i]);
         // Add the button to the HTML
         $("#buttons-view").append(button);
-
-        console.log(button);
     }
 }
 
@@ -40,6 +86,7 @@ $("#add-topic").on('click', function(event) {
     renderButtons();
 })
 
+$(document).on('click', ".topic", displayGifInfo);
 
 renderButtons();
 
