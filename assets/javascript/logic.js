@@ -12,7 +12,7 @@ function displayGifInfo() {
         url: queryURL,
         method: "GET"
     }).then(function(res) {
-        // console.log(res);
+        console.log(res);
 
         var results = res.data;
 
@@ -20,7 +20,8 @@ function displayGifInfo() {
         for (var i = 0; i < results.length; i++) {
 
             // Only take action if the gif has an appropriate rating
-            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+            // if (results[i].rating !== "r") {
+            // && results[i].rating !== "pg-13") {
 
             // Creating a div to hold the gifs
             var gifDiv = $("<div class='gifs'>");
@@ -36,18 +37,41 @@ function displayGifInfo() {
 
             // Retrieving the URL for the gif
             var gifURL = results[i].images.fixed_height.url;
+            var gifURLstill = results[i].images.fixed_height_still.url;
 
             // Creating an element to hold the image
-            var displayGif = $("<img>").attr("src", gifURL);
+            var displayGif = $("<img>").attr("src", gifURLstill);
+            
+            displayGif.attr("data-still", gifURLstill);
+            displayGif.attr("data-animate", gifURL);
+            displayGif.attr("data-state", "still");
+            displayGif.attr("class", "gif");
 
             // Appending the image
             gifDiv.append(displayGif);
 
             // Putting the new gifs above the previous ones
             $("#gifs-div").prepend(gifDiv);
-    }}})
-}
+        }
+            
+        $("img").on("click", function() {
+    
+            var state = $(this).attr("data-state");
 
+            if (state === "still") {
+                $(this).attr("src", $(this).attr("data-animate"));
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                $(this).attr("data-state", "still");
+            }
+
+            console.log('click');
+        })
+    })
+};
+
+    
 
 // Function for displaying buttons
 function renderButtons() {
@@ -89,6 +113,5 @@ $("#add-topic").on('click', function(event) {
 $(document).on('click', ".topic", displayGifInfo);
 
 renderButtons();
-
 
 
