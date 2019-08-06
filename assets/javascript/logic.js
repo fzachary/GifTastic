@@ -68,8 +68,48 @@ function displayGifInfo() {
 
             console.log('click');
         })
-    })
-};
+
+        $("#extra-gifs").on("click", function(event) {
+
+            event.preventDefault();
+
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10&offset=10";
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(res) {
+                console.log(res);
+                results = res.data;
+
+                for (var i = 0; i < results.length; i++) {
+
+                    var gifDiv = $("<div class='gifs'>");
+
+                     var ratings = results[i].rating;
+
+                     var ratingP = $("<p>").text("Rating: " + ratings);
+
+                    gifDiv.append(ratingP);
+
+                    var gifURL = results[i].images.fixed_height.url;
+                    var gifURLstill = results[i].images.fixed_height_still.url;
+
+                    var displayGif = $("<img>").attr("src", gifURLstill);
+
+                    displayGif.attr("data-still", gifURLstill);
+                    displayGif.attr("data-animate", gifURL);
+                    displayGif.attr("data-state", "still");
+                    displayGif.attr("class", "gif");
+
+                    gifDiv.append(displayGif);
+
+                     $("#gifs-div").prepend(gifDiv);
+                     }
+            })})
+
+            
+        })}
 
     
 
@@ -95,6 +135,8 @@ function renderButtons() {
         $("#buttons-view").append(button);
     }
 }
+
+    
 
 // Function to handle the submit button event
 $("#add-topic").on('click', function(event) {
