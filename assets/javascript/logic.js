@@ -12,7 +12,7 @@ function displayGifInfo() {
         url: queryURL,
         method: "GET"
     }).then(function(res) {
-        console.log(res);
+        // console.log(res);
 
         var results = res.data;
 
@@ -31,6 +31,7 @@ function displayGifInfo() {
 
             // Creating an element to have the rating displayed
             var ratingP = $("<p>").text("Rating: " + ratings);
+            ratingP.attr("style", "margin-top: 30px;");
 
             // Displaying the rating
             gifDiv.append(ratingP);
@@ -46,6 +47,7 @@ function displayGifInfo() {
             displayGif.attr("data-animate", gifURL);
             displayGif.attr("data-state", "still");
             displayGif.attr("class", "gif");
+            displayGif.attr("style", "margin-right: 45px; margin-top: 15px;");
 
             // Appending the image
             gifDiv.append(displayGif);
@@ -79,16 +81,17 @@ function displayGifInfo() {
                 url: queryURL,
                 method: "GET"
             }).then(function(res) {
-                console.log(res);
+                // console.log(res);
                 results = res.data;
 
                 for (var i = 0; i < results.length; i++) {
 
                     var gifDiv = $("<div class='gifs'>");
 
-                     var ratings = results[i].rating;
+                    var ratings = results[i].rating;
 
-                     var ratingP = $("<p>").text("Rating: " + ratings);
+                    var ratingP = $("<p>").text("Rating: " + ratings);
+                    ratingP.attr("style", "margin-top: 30px;");
 
                     gifDiv.append(ratingP);
 
@@ -101,6 +104,7 @@ function displayGifInfo() {
                     displayGif.attr("data-animate", gifURL);
                     displayGif.attr("data-state", "still");
                     displayGif.attr("class", "gif");
+                    displayGif.attr("style", "margin-right: 45px; margin-top: 15px;");
 
                     gifDiv.append(displayGif);
 
@@ -126,13 +130,19 @@ function renderButtons() {
         var button = $("<button>");
 
         // Add a class to the button
-        button.addClass("topic");
+        button.addClass("btn btn-outline-secondary");
+        // Add an ID to the buttons
+        button.attr("id", "topic");
         // Add a data-attribute
         button.attr("data-name", topics[i]);
         // Provide the button text
         button.text(topics[i]);
         // Add the button to the HTML
+        button.attr("style", "margin: 10px;");
+
         $("#buttons-view").append(button);
+
+        $("#topic-input").val('');
     }
 }
 
@@ -145,6 +155,7 @@ $("#add-topic").on('click', function(event) {
     // Grab the input from the text box
     var topic = $("#topic-input").val().trim();
 
+    
     // Add the movie from the textbox to our array
     topics.push(topic);
 
@@ -152,7 +163,7 @@ $("#add-topic").on('click', function(event) {
     renderButtons();
 })
 
-$(document).on('click', ".topic", displayGifInfo);
+$(document).on('click', "#topic", displayGifInfo);
 
 renderButtons();
 
