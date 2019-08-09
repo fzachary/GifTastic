@@ -146,7 +146,10 @@ function renderButtons() {
     }
 }
 
-    
+// Emptying the search input on click
+$("#topic-input").on("focus", function() {
+    $("#topic-input").empty();
+});
 
 // Function to handle the submit button event
 $("#add-topic").on('click', function(event) {
