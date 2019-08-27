@@ -12,5 +12,4 @@ There is an alternate button that the user can press once they have already load
 
 Please contact me if you would like to contribute.
 
-
-
+### See the project at https://fzachary.github.io/GifTastic/
